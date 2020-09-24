@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kgc.teackingmgt.dao.MastersDao">
+
+    <resultMap type="com.kgc.teackingmgt.entity.Masters" id="MastersMap">
+        <result property="masterid" column="masterid" jdbcType="INTEGER"/>
+        <result property="mastername" column="masterName" jdbcType="VARCHAR"/>
+        <result property="masterphone" column="masterPhone" jdbcType="VARCHAR"/>
+        <result property="masterlevel" column="masterLevel" jdbcType="INTEGER"/>
+        <result property="mastersocre" column="masterSocre" jdbcType="INTEGER"/>
+        <result property="masterpreperence" column="masterPreperence" jdbcType="INTEGER"/>
+        <result property="score1" column="score1" jdbcType="INTEGER"/>
+        <result property="score2" column="score2" jdbcType="INTEGER"/>
+        <result property="score3" column="score3" jdbcType="INTEGER"/>
+        <result property="score4" column="score4" jdbcType="INTEGER"/>
+        <result property="score5" column="score5" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MastersMap">
+        select
+          masterid, masterName, masterPhone, masterLevel, masterSocre, masterPreperence, score1, score2, score3, score4, score5, status
+        from kgc_teaching.masters
+        where masterid = #{masterid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="MastersMap">
+        select
+          masterid, masterName, masterPhone, masterLevel, masterSocre, masterPreperence, score1, score2, score3, score4, score5, status
+        from kgc_teaching.masters
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="MastersMap">
+        select
+        masterid, masterName, masterPhone, masterLevel, masterSocre, masterPreperence, score1, score2, score3, score4,
+        score5, status
+        from kgc_teaching.masters
+        <where>
+            <if test="masterid != null">
+                and masterid = #{masterid}
+            </if>
+            <if test="mastername != null and mastername != ''">
+                and masterName = #{mastername}
+            </if>
+            <if test="masterphone != null and masterphone != ''">
+                and masterPhone = #{masterphone}
+            </if>
+            <if test="masterlevel != null">
+                and masterLevel = #{masterlevel}
+            </if>
+            <if test="mastersocre != null">
+                and masterSocre = #{mastersocre}
+            </if>
+            <if test="masterpreperence != null">
+                and masterPreperence = #{masterpreperence}
+            </if>
+            <if test="score1 != null">
+                and score1 = #{score1}
+            </if>
+            <if test="score2 != null">
+                and score2 = #{score2}
+            </if>
+            <if test="score3 != null">
+                and score3 = #{score3}
+            </if>
+            <if test="score4 != null">
+                and score4 = #{score4}
+            </if>
+            <if test="score5 != null">
+                and score5 = #{score5}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="masterid" useGeneratedKeys="true">
+        insert into kgc_teaching.masters(masterName, masterPhone, masterLevel, masterSocre, masterPreperence, score1, score2, score3, score4, score5, status)
+        values (#{mastername}, #{masterphone}, #{masterlevel}, #{mastersocre}, #{masterpreperence}, #{score1}, #{score2}, #{score3}, #{score4}, #{score5}, #{status})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update kgc_teaching.masters
+        <set>
+            <if test="mastername != null and mastername != ''">
+                masterName = #{mastername},
+            </if>
+            <if test="masterphone != null and masterphone != ''">
+                masterPhone = #{masterphone},
+            </if>
+            <if test="masterlevel != null">
+                masterLevel = #{masterlevel},
+            </if>
+            <if test="mastersocre != null">
+                masterSocre = #{mastersocre},
+            </if>
+            <if test="masterpreperence != null">
+                masterPreperence = #{masterpreperence},
+            </if>
+            <if test="score1 != null">
+                score1 = #{score1},
+            </if>
+            <if test="score2 != null">
+                score2 = #{score2},
+            </if>
+            <if test="score3 != null">
+                score3 = #{score3},
+            </if>
+            <if test="score4 != null">
+                score4 = #{score4},
+            </if>
+            <if test="score5 != null">
+                score5 = #{score5},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where masterid = #{masterid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from kgc_teaching.masters where masterid = #{masterid}
+    </delete>
+
+</mapper>

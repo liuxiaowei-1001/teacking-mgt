@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kgc.teackingmgt.dao.RightsDao">
+
+    <resultMap type="com.kgc.teackingmgt.entity.Rights" id="RightsMap">
+        <result property="rightid" column="rightid" jdbcType="INTEGER"/>
+        <result property="level" column="level" jdbcType="INTEGER"/>
+        <result property="rightname" column="rightName" jdbcType="VARCHAR"/>
+        <result property="parentid" column="parentid" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RightsMap">
+        select
+          rightid, level, rightName, parentid
+        from kgc_teaching.rights
+        where rightid = #{rightid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RightsMap">
+        select
+          rightid, level, rightName, parentid
+        from kgc_teaching.rights
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="RightsMap">
+        select
+        rightid, level, rightName, parentid, iconpath
+        from kgc_teaching.rights
+        <where>
+            <if test="rightid != null">
+                and rightid = #{rightid}
+            </if>
+            <if test="level != null">
+                and level = #{level}
+            </if>
+            <if test="rightname != null and rightname != ''">
+                and rightName = #{rightname}
+            </if>
+            <if test="parentid != null">
+                and parentid = #{parentid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="rightid" useGeneratedKeys="true">
+        insert into kgc_teaching.rights(level, rightName, parentid)
+        values (#{level}, #{rightname}, #{parentid})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update kgc_teaching.rights
+        <set>
+            <if test="level != null">
+                level = #{level},
+            </if>
+            <if test="rightname != null and rightname != ''">
+                rightName = #{rightname},
+            </if>
+            <if test="parentid != null">
+                parentid = #{parentid},
+            </if>
+        </set>
+        where rightid = #{rightid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from kgc_teaching.rights where rightid = #{rightid}
+    </delete>
+
+    <select id="getMenuFirstList" parameterType="int"
+            resultType="com.kgc.teackingmgt.dto.vo.MenuFirstVo">
+        SELECT m.rightid,r.rightName,r.iconpath,r.path from
+        mid_role_right m left join rights r ON
+        m.rightid=r.rightid where m.roleid=#{roleid}
+        AND r.`level`=1
+    </select>
+
+    <select id="getMenuSecondList"
+            resultType="com.kgc.teackingmgt.dto.vo.MenuSecondVo">
+        SELECT m.rightid,r.rightName,r.iconpath,r.path from
+        mid_role_right m left join rights r ON
+        m.rightid=r.rightid where r.parentid=#{pid} AND
+         m.roleid=#{roleid} AND r.`level`=2
+    </select>
+
+</mapper>

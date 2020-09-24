@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kgc.teackingmgt.dao.UsersDao">
+
+    <resultMap type="com.kgc.teackingmgt.entity.Users" id="UsersMap">
+        <result property="userid" column="userid" jdbcType="INTEGER"/>
+        <result property="username" column="userName" jdbcType="VARCHAR"/>
+        <result property="userage" column="userAge" jdbcType="INTEGER"/>
+        <result property="roleid" column="roleid" jdbcType="INTEGER"/>
+        <result property="userphone" column="userPhone" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="level" column="level" jdbcType="INTEGER"/>
+        <result property="contributionscore" column="contributionScore" jdbcType="INTEGER"/>
+        <result property="combinedscore" column="combinedScore" jdbcType="INTEGER"/>
+        <result property="javascore" column="javaScore" jdbcType="INTEGER"/>
+        <result property="webscore" column="webScore" jdbcType="INTEGER"/>
+        <result property="dbscore" column="dbScore" jdbcType="INTEGER"/>
+        <result property="serverscore" column="serverScore" jdbcType="INTEGER"/>
+        <result property="pgmscore" column="pgmScore" jdbcType="INTEGER"/>
+        <result property="bdscore" column="bdScore" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UsersMap">
+        select
+          userid, userName, userAge, roleid, userPhone, password, level, contributionScore, combinedScore, javaScore, webScore, dbScore, serverScore, pgmScore, bdScore, status
+        from kgc_teaching.users
+        where userid = #{userid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UsersMap">
+        select
+          userid, userName, userAge, roleid, userPhone, password, level, contributionScore, combinedScore, javaScore, webScore, dbScore, serverScore, pgmScore, bdScore, status
+        from kgc_teaching.users
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UsersMap">
+        select
+        userid, userName, userAge, roleid, userPhone, password, level, contributionScore, combinedScore, javaScore,
+        webScore, dbScore, serverScore, pgmScore, bdScore, status
+        from kgc_teaching.users
+        <where>
+            <if test="userid != null">
+                and userid = #{userid}
+            </if>
+            <if test="username != null and username != ''">
+                and userName = #{username}
+            </if>
+            <if test="userage != null">
+                and userAge = #{userage}
+            </if>
+            <if test="roleid != null">
+                and roleid = #{roleid}
+            </if>
+            <if test="userphone != null and userphone != ''">
+                and userPhone = #{userphone}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="level != null">
+                and level = #{level}
+            </if>
+            <if test="contributionscore != null">
+                and contributionScore = #{contributionscore}
+            </if>
+            <if test="combinedscore != null">
+                and combinedScore = #{combinedscore}
+            </if>
+            <if test="javascore != null">
+                and javaScore = #{javascore}
+            </if>
+            <if test="webscore != null">
+                and webScore = #{webscore}
+            </if>
+            <if test="dbscore != null">
+                and dbScore = #{dbscore}
+            </if>
+            <if test="serverscore != null">
+                and serverScore = #{serverscore}
+            </if>
+            <if test="pgmscore != null">
+                and pgmScore = #{pgmscore}
+            </if>
+            <if test="bdscore != null">
+                and bdScore = #{bdscore}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="userid" useGeneratedKeys="true">
+        insert into kgc_teaching.users(userName, userAge, roleid, userPhone, password, level, contributionScore, combinedScore, javaScore, webScore, dbScore, serverScore, pgmScore, bdScore, status)
+        values (#{username}, #{userage}, #{roleid}, #{userphone}, #{password}, #{level}, #{contributionscore}, #{combinedscore}, #{javascore}, #{webscore}, #{dbscore}, #{serverscore}, #{pgmscore}, #{bdscore}, #{status})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update kgc_teaching.users
+        <set>
+            <if test="username != null and username != ''">
+                userName = #{username},
+            </if>
+            <if test="userage != null">
+                userAge = #{userage},
+            </if>
+            <if test="roleid != null">
+                roleid = #{roleid},
+            </if>
+            <if test="userphone != null and userphone != ''">
+                userPhone = #{userphone},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="level != null">
+                level = #{level},
+            </if>
+            <if test="contributionscore != null">
+                contributionScore = #{contributionscore},
+            </if>
+            <if test="combinedscore != null">
+                combinedScore = #{combinedscore},
+            </if>
+            <if test="javascore != null">
+                javaScore = #{javascore},
+            </if>
+            <if test="webscore != null">
+                webScore = #{webscore},
+            </if>
+            <if test="dbscore != null">
+                dbScore = #{dbscore},
+            </if>
+            <if test="serverscore != null">
+                serverScore = #{serverscore},
+            </if>
+            <if test="pgmscore != null">
+                pgmScore = #{pgmscore},
+            </if>
+            <if test="bdscore != null">
+                bdScore = #{bdscore},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where userid = #{userid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from kgc_teaching.users where userid = #{userid}
+    </delete>
+
+    <select id="getUserByPhone" resultMap="UsersMap">
+        select
+          userid, userName, userAge, roleid, userPhone, password, level, contributionScore, combinedScore, javaScore, webScore, dbScore, serverScore, pgmScore, bdScore, status
+        from kgc_teaching.users
+        where userPhone = #{phone}
+    </select>
+
+    <select id="getTeachersQueryPage" resultMap="UsersMap">
+        select
+          *
+        from kgc_teaching.users
+        where (userName like concat('%',#{query},'%') or userPhone like concat('%',#{query},'%')) and roleid =1 limit #{index},#{size}
+    </select>
+
+    <select id="getTeachersQuerySize" resultType="int" parameterType="java.lang.String">
+        select
+          count(*)
+        from kgc_teaching.users
+        where (userName like concat('%',#{query},'%') or userPhone like concat('%',#{query},'%')) and roleid=1
+    </select>
+
+</mapper>

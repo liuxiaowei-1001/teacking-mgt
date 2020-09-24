@@ -1,0 +1,17 @@
+server:
+  port: 8889
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/kgc_teaching?useUnicode=true&characterEncoding=gbk&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 198871
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    database: 0
+    host: 101.201.197.85
+    port: 6379
+    password: 140315
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
